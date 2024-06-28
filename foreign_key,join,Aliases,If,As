@@ -1,0 +1,868 @@
+Microsoft Windows [Version 10.0.19045.4529]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HAPPY>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.37 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create database college;
+Query OK, 1 row affected (0.16 sec)
+
+mysql> use database college;
+ERROR 1049 (42000): Unknown database 'database'
+mysql> use college;
+Database changed
+mysql> create table clgstudent;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table clgstudent(
+    -> id int primary key;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> create table clgstudent(
+    -> id int primary key;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> create table clgstudent(
+    -> id int primary key,
+    -> name varchar(15) not null,
+    -> phone bigint unique,
+    -> gender char check (in gender ('f','m')),
+    -> nationality varchar(15) default "India",
+    -> time datetime default current_timestamp,
+    -> dep varchar(5) not null,
+    -> hod varchar(15) not null,
+    -> dep_no int unique);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in gender ('f','m')),
+nationality varchar(15) default "India",
+time datetime def' at line 5
+mysql> create table duumy(
+    -> gender char check (gender in('m','f'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> create table duumy(
+    -> gender char check gender in('m','f');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'gender in('m','f')' at line 2
+mysql> create table duumy(
+    -> gender char check (gender in('m','f'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> create table duumy(
+    -> gender char check (in gender('m','f'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in gender('m','f'))' at line 2
+mysql> create table duumy(
+    -> gender char(1) check (in gender('m','f'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in gender('m','f'))' at line 2
+mysql> create table duumy(
+    -> gender char(1) check (gender in ('m','f'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> CREATE TABLE dummy (
+    ->     gender CHAR(1) CHECK (gender IN ('m', 'f'))
+    -> );
+Query OK, 0 rows affected (1.10 sec)
+
+mysql> drop table dummy;
+Query OK, 0 rows affected (0.47 sec)
+
+mysql> create table clgstudent(
+    -> id int primary key,
+    -> name varchar(15) not null,
+    -> phone bigint unique,
+    -> gender char(1) check (gender in ('f','m')),
+    -> hod varchar(15) not null,
+    -> dep varchar(5) not null,
+    -> time datetime default current_timestamp,
+    -> nationality varchar(15) default "India",
+    -> dep_no int unique);
+Query OK, 0 rows affected (1.34 sec)
+
+mysql> desc clgstudent;
++-------------+-------------+------+-----+-------------------+-------------------+
+| Field       | Type        | Null | Key | Default           | Extra             |
++-------------+-------------+------+-----+-------------------+-------------------+
+| id          | int         | NO   | PRI | NULL              |                   |
+| name        | varchar(15) | NO   |     | NULL              |                   |
+| phone       | bigint      | YES  | UNI | NULL              |                   |
+| gender      | char(1)     | YES  |     | NULL              |                   |
+| hod         | varchar(15) | NO   |     | NULL              |                   |
+| dep         | varchar(5)  | NO   |     | NULL              |                   |
+| time        | datetime    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| nationality | varchar(15) | YES  |     | India             |                   |
+| dep_no      | int         | YES  | UNI | NULL              |                   |
++-------------+-------------+------+-----+-------------------+-------------------+
+9 rows in set (0.05 sec)
+
+mysql> insert into clgstudent (id,name,phone,gender,hod,dep,dep_no) values(1,"adhi",9484932420,'m',"aishvarya",'bca',102);
+Query OK, 1 row affected (0.18 sec)
+
+mysql> insert into clgstudent (id,name,phone,gender,hod,dep,dep_no) values(2,"tharagai",9484938384,'f',"vanaja",'mca',103),(3,"sathya",836478389,'m',"aishvarya",'bca',102);
+ERROR 1062 (23000): Duplicate entry '102' for key 'clgstudent.dep_no'
+mysql> select * from clgstudent;
++----+------+------------+--------+-----------+-----+---------------------+-------------+--------+
+| id | name | phone      | gender | hod       | dep | time                | nationality | dep_no |
++----+------+------------+--------+-----------+-----+---------------------+-------------+--------+
+|  1 | adhi | 9484932420 | m      | aishvarya | bca | 2024-06-28 12:52:09 | India       |    102 |
++----+------+------------+--------+-----------+-----+---------------------+-------------+--------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| clgstudent        |
++-------------------+
+1 row in set (0.08 sec)
+
+mysql> create table depart(
+    -> id int primary key,
+    -> hod varchar(15) not null,
+    -> depart_no int unique);
+Query OK, 0 rows affected (1.57 sec)
+
+mysql> insert into depart (int,hod,depart_no) values(1,"vimala",101),(2,"manjula",103),(3,"pavithra",104
+    -> ;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int,hod,depart_no) values(1,"vimala",101),(2,"manjula",103),(3,"pavithra",104' at line 1
+ERROR:
+No query specified
+
+mysql> insert into depart (int,hod,depart_no) values(1,"vimala",101),(2,"manjula",103),(3,"pavithra",104);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int,hod,depart_no) values(1,"vimala",101),(2,"manjula",103),(3,"pavithra",104)' at line 1
+mysql> insert into depart (id,hod,depart_no) values(1,"vimala",101),(2,"manjula",103),(3,"pavithra",104);
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from depart;
++----+----------+-----------+
+| id | hod      | depart_no |
++----+----------+-----------+
+|  1 | vimala   |       101 |
+|  2 | manjula  |       103 |
+|  3 | pavithra |       104 |
++----+----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> create table student_info(
+    -> id int primary key,
+    -> name varchar(15) not null,
+    -> depa_id int,
+    -> foreign key(depa_id) references depart(depart_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql> create table student_info(
+    -> id int primary key,
+    -> name varchar(15) not null,
+    -> depart int foreign key references depart(depart_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key references depart(depart_no)' at line 4
+mysql> create table student_info(
+    -> id int primary key,
+    -> name varchar(15) not null,
+    -> depa_id int,
+    -> foreign_key(depa_id) references depart(depart_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(depa_id) references depart(depart_no)' at line 5
+mysql> create table student_info(
+    -> id int primary key,
+    -> depa_id int,
+    -> foreign_key(depa_id) references depart(depart_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(depa_id) references depart(depart_no)' at line 4
+mysql> create table student_info(
+    -> id int primary key,
+    -> name varchar(15) not null,
+    -> depa_id int,
+    -> foreign key(depa_id) references depart(depart_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql> create table student_info(
+    -> id int primary key,
+    -> name varchar(15) not null,
+    -> depa_id int,
+    -> foreign key(depa_id) references depart(depart_no));
+Query OK, 0 rows affected (1.23 sec)
+
+mysql> desc student_info;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int         | NO   | PRI | NULL    |       |
+| name    | varchar(15) | NO   |     | NULL    |       |
+| depa_id | int         | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc depart;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| id        | int         | NO   | PRI | NULL    |       |
+| hod       | varchar(15) | NO   |     | NULL    |       |
+| depart_no | int         | YES  | UNI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into depart(
+    -> 1,"vimala",101),(2,"manjula",102);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,"vimala",101),(2,"manjula",102)' at line 2
+mysql> insert into depart(
+    -> time datetime default current_timestamp,;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'datetime default current_timestamp,' at line 2
+mysql> insert into depart values(1,"manu",101),(2,"vinu",102);
+ERROR 1062 (23000): Duplicate entry '1' for key 'depart.PRIMARY'
+mysql> isn^C
+mysql> insert into student_info values (1,"kamala",101),(2,"devi",102);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`college`.`student_info`, CONSTRAINT `student_info_ibfk_1` FOREIGN KEY (`depa_id`) REFERENCES `depart` (`depart_no`))
+mysql> select * from depart;
++----+----------+-----------+
+| id | hod      | depart_no |
++----+----------+-----------+
+|  1 | vimala   |       101 |
+|  2 | manjula  |       103 |
+|  3 | pavithra |       104 |
++----+----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student_info values(1,"kamala",101);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into student_info values(2,"kamala",101);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into student_info values(2,"kamala",102);
+ERROR 1062 (23000): Duplicate entry '2' for key 'student_info.PRIMARY'
+mysql> insert into student_info values(3,"kamala",102);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`college`.`student_info`, CONSTRAINT `student_info_ibfk_1` FOREIGN KEY (`depa_id`) REFERENCES `depart` (`depart_no`))
+mysql> desc depart;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| id        | int         | NO   | PRI | NULL    |       |
+| hod       | varchar(15) | NO   |     | NULL    |       |
+| depart_no | int         | YES  | UNI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> drop constaint depart_no;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'constaint depart_no' at line 1
+mysql> alter table depart_no
+    -> modify constraint depart_no;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'constraint depart_no' at line 2
+mysql> alter table depart_no
+    -> modify depart_no not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null' at line 2
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| clgstudent        |
+| depart            |
+| student_info      |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> drop table depart and student_info;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and student_info' at line 1
+mysql> drop table depart
+    -> ;
+ERROR 3730 (HY000): Cannot drop table 'depart' referenced by a foreign key constraint 'student_info_ibfk_1' on table 'student_info'.
+mysql> drop table depart;
+ERROR 3730 (HY000): Cannot drop table 'depart' referenced by a foreign key constraint 'student_info_ibfk_1' on table 'student_info'.
+mysql> drop table student_info;
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> drop table depart;
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| clgstudent        |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> create table parent_table(
+    -> dept_id int primary key,
+    -> dept_name unique,
+    -> dept_hod not null
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unique,
+dept_hod not null
+)' at line 3
+mysql> dept_id int primary key,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dept_id int primary key,' at line 1
+mysql> create table parent_table(
+    -> dept_id int primary key,
+    -> dept_name unique,
+    -> dept_hod not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unique,
+dept_hod not null' at line 3
+mysql>  create table parent_table(
+    ->      dept_id int primary key,
+    ->      dept_name varchar(23) unique,
+    ->      dept_hod varchar(34 )not null
+    ->      );
+Query OK, 0 rows affected (0.56 sec)
+
+mysql> create table child_table(
+    -> id int primary key,
+    -> name varchar(20) not null,
+    -> dept_id foreign key references parent_table(dept_id)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key references parent_table(dept_id)
+)' at line 4
+mysql> create table child_table(
+    ->      id int primary key,
+    ->      name varchar(20) not null,
+    ->      dept_id int
+    ->      foreign key (dept_id) references parent_table(dept_id)
+    ->      );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key (dept_id) references parent_table(dept_id)
+     )' at line 5
+mysql> CREATE TABLE child_table (
+    ->     id INT PRIMARY KEY,
+    ->     name VARCHAR(20) NOT NULL,
+    ->     dept_id INT,
+    ->     FOREIGN KEY (dept_id) REFERENCES parent_table(dept_id)
+    -> );
+Query OK, 0 rows affected (0.60 sec)
+
+mysql> desc parent_table;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | int         | NO   | PRI | NULL    |       |
+| dept_name | varchar(23) | YES  | UNI | NULL    |       |
+| dept_hod  | varchar(34) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc child_table;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int         | NO   | PRI | NULL    |       |
+| name    | varchar(20) | NO   |     | NULL    |       |
+| dept_id | int         | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into child_table values(1,"amutha",109),(2,"vimil",108);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`college`.`child_table`, CONSTRAINT `child_table_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `parent_table` (`dept_id`))
+mysql> insert into parent_table values(102,"bcom","solima"),(103,"bcom","vani"),(104,"mcom","rani"),(105,"bba","mani"),(106,"bca","valli");
+ERROR 1062 (23000): Duplicate entry 'bcom' for key 'parent_table.dept_name'
+mysql> insert into parent_table values(102,"bcom","solima"),(103,"bsc","vani"),(104,"mcom","rani"),(105,"bba","mani"),(106,"bca","valli");
+Query OK, 5 rows affected (0.11 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from parent_table;
++---------+-----------+----------+
+| dept_id | dept_name | dept_hod |
++---------+-----------+----------+
+|     102 | bcom      | solima   |
+|     103 | bsc       | vani     |
+|     104 | mcom      | rani     |
+|     105 | bba       | mani     |
+|     106 | bca       | valli    |
++---------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into child_table values(1,"somanu",102),(2,"vanitha",102),(3,"ranimathu",103),(4,"manisha",106),(5,"vallith",102);
+Query OK, 5 rows affected (0.09 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from child_table;
++----+-----------+---------+
+| id | name      | dept_id |
++----+-----------+---------+
+|  1 | somanu    |     102 |
+|  2 | vanitha   |     102 |
+|  3 | ranimathu |     103 |
+|  4 | manisha   |     106 |
+|  5 | vallith   |     102 |
++----+-----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> insert into child_table values(1,"somanu",102),(2,"vanitha",102),(3,"ranimathu",103),(4,"manisha",106),(5,"vallith",109);
+ERROR 1062 (23000): Duplicate entry '1' for key 'child_table.PRIMARY'
+mysql> insert into child_table values(6,"vallith",109);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`college`.`child_table`, CONSTRAINT `child_table_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `parent_table` (`dept_id`))
+mysql> select id,name,dept_id from child_table
+    -> join ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> select id,name,dept_id,dept_name,dept_hod from child_table
+    -> join parent_table
+    -> where dept_id=de;
+ERROR 1052 (23000): Column 'dept_id' in field list is ambiguous
+mysql> select child_table.id, child_table.name,child_table.dept_id,parent_table.dept_name,parent_table.dept_hod from child_table
+    -> join parent_table
+    -> where child_table.dept_id=parent_table.dept_id;
++----+-----------+---------+-----------+----------+
+| id | name      | dept_id | dept_name | dept_hod |
++----+-----------+---------+-----------+----------+
+|  1 | somanu    |     102 | bcom      | solima   |
+|  2 | vanitha   |     102 | bcom      | solima   |
+|  3 | ranimathu |     103 | bsc       | vani     |
+|  4 | manisha   |     106 | bca       | valli    |
+|  5 | vallith   |     102 | bcom      | solima   |
++----+-----------+---------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> create table coimbatore(
+    -> id int primary key,
+    -> zip_code int not null,
+    -> hotel varchar(15) not null);
+Query OK, 0 rows affected (0.90 sec)
+
+mysql> insert into coimbatore values(1,641001,"annapoorna"),(2,641002,"anadhas"),(3,641003,"amuthasurabi")
+    -> ;
+Query OK, 3 rows affected (0.23 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from coimbatore;
++----+----------+--------------+
+| id | zip_code | hotel        |
++----+----------+--------------+
+|  1 |   641001 | annapoorna   |
+|  2 |   641002 | anadhas      |
+|  3 |   641003 | amuthasurabi |
++----+----------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> create table coimbatore_child(
+    -> id_no int primary key,
+    -> zip_code int not null,
+    -> park varchar(20) not null,
+    -> foreign key (zip_code) references coimbatore(zip_code
+    -> ));
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'coimbatore_child_ibfk_1' in the referenced table 'coimbatore'
+mysql> create table coimbatore_child(
+    -> id_no int primary key,
+    -> zip_code int not null,
+    -> park varchar(20) not null,
+    -> foreign key () references parent_table(dept_id;)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') references parent_table(dept_id' at line 5
+    -> drop table coimbatore;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+drop table coimbatore' at line 1
+mysql> drop table coimbatore;
+Query OK, 0 rows affected (0.36 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| child_table       |
+| clgstudent        |
+| parent_table      |
++-------------------+
+3 rows in set (0.09 sec)
+
+mysql> create create table coimbatore(
+    ->      id int primary key,
+    ->     zip_code int unique,
+    ->     hotel ^Z^Z^Z^Z^Z^Z^Z^Z^Z^Z^Zvarchar(15) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create table coimbatore(
+     id int primary key,
+    zip_code int unique,
+    h' at line 1
+mysql> create table coimbatore(
+    ->      id int primary key,
+    ->     zip_code int unique,
+    ->     hotel varchar(15) not null);
+Query OK, 0 rows affected (1.04 sec)
+
+mysql> create table coimbatore_child(
+    -> id int primary key,
+    -> zip_code int ,
+    -> park  varchar(10) not null,
+    -> foreign key (zip_code) references coimbatore(zip_code));
+Query OK, 0 rows affected (1.18 sec)
+
+mysql> insert into coimbatore values(1,641001,"annaporana"),(2,641002,"anadhas"),(3,641003,"ss");
+Query OK, 3 rows affected (0.38 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into coimbatore_child values
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> insert into coimbatore_child values(1,641001,"coco"),(2,641003,"mooo"),(3,641003,"zoo");
+Query OK, 3 rows affected (0.36 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select coimbatore_child.id,coimbatore_child.park,coimbatore.hotel from coimbatore_child join coimbatore where coimbatore_child.zip_code=coimbatore.zip_code;
++----+------+------------+
+| id | park | hotel      |
++----+------+------------+
+|  1 | coco | annaporana |
+|  2 | mooo | ss         |
+|  3 | zoo  | ss         |
++----+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> DROP TABLE IF EXISTS emp;
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql>
+mysql> CREATE TABLE emp (
+    ->   empno decimal(4,0) NOT NULL,
+    ->   ename varchar(10) default NULL,
+    ->   job varchar(9) default NULL,
+    ->   mgr decimal(4,0) default NULL,
+    ->   hiredate date default NULL,
+    ->   sal decimal(7,2) default NULL,
+    ->   comm decimal(7,2) default NULL,
+    ->   deptno decimal(2,0) default NULL
+    -> );
+Query OK, 0 rows affected (0.95 sec)
+
+mysql>
+mysql> DROP TABLE IF EXISTS dept;
+Query OK, 0 rows affected, 1 warning (0.07 sec)
+
+mysql>
+mysql> CREATE TABLE dept (
+    ->   deptno decimal(2,0) default NULL,
+    ->   dname varchar(14) default NULL,
+    ->   loc varchar(13) default NULL
+    -> );
+Query OK, 0 rows affected (0.66 sec)
+
+mysql>
+mysql> INSERT INTO emp VALUES ('7369','SMITH','CLERK','7902','1980-12-17','800.00',NULL,'20');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO emp VALUES ('7499','ALLEN','SALESMAN','7698','1981-02-20','1600.00','300.00','30');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO emp VALUES ('7521','WARD','SALESMAN','7698','1981-02-22','1250.00','500.00','30');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO emp VALUES ('7566','JONES','MANAGER','7839','1981-04-02','2975.00',NULL,'20');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO emp VALUES ('7654','MARTIN','SALESMAN','7698','1981-09-28','1250.00','1400.00','30');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO emp VALUES ('7698','BLAKE','MANAGER','7839','1981-05-01','2850.00',NULL,'30');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO emp VALUES ('7782','CLARK','MANAGER','7839','1981-06-09','2450.00',NULL,'10');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> INSERT INTO emp VALUES ('7788','SCOTT','ANALYST','7566','1982-12-09','3000.00',NULL,'20');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO emp VALUES ('7839','KING','PRESIDENT',NULL,'1981-11-17','5000.00',NULL,'10');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO emp VALUES ('7844','TURNER','SALESMAN','7698','1981-09-08','1500.00','0.00','30');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO emp VALUES ('7876','ADAMS','CLERK','7788','1983-01-12','1100.00',NULL,'20');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO emp VALUES ('7900','JAMES','CLERK','7698','1981-12-03','950.00',NULL,'30');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO emp VALUES ('7902','FORD','ANALYST','7566','1981-12-03','3000.00',NULL,'20');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO emp VALUES ('7934','MILLER','CLERK','7782','1982-01-23','1300.00',NULL,'10');
+Query OK, 1 row affected (0.08 sec)
+
+mysql>
+mysql> INSERT INTO dept VALUES ('10','ACCOUNTING','NEW YORK');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO dept VALUES ('20','RESEARCH','DALLAS');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO dept VALUES ('30','SALES','CHICAGO');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO dept VALUES ('40','OPERATIONS','BOSTON');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| constrains         |
+| employe_details    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_details    |
+| students           |
+| sys                |
+| world              |
++--------------------+
+11 rows in set (0.07 sec)
+
+mysql> use employe_details;
+Database changed
+mysql> show tables;
++---------------------------+
+| Tables_in_employe_details |
++---------------------------+
+| emp                       |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> use college;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| child_table       |
+| clgstudent        |
+| coimbatore        |
+| coimbatore_child  |
+| dept              |
+| emp               |
+| parent_table      |
++-------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+
+| deptno | dname      | loc      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+mysql> select ename,sal,comm from emp ;
++--------+---------+---------+
+| ename  | sal     | comm    |
++--------+---------+---------+
+| SMITH  |  800.00 |    NULL |
+| ALLEN  | 1600.00 |  300.00 |
+| WARD   | 1250.00 |  500.00 |
+| JONES  | 2975.00 |    NULL |
+| MARTIN | 1250.00 | 1400.00 |
+| BLAKE  | 2850.00 |    NULL |
+| CLARK  | 2450.00 |    NULL |
+| SCOTT  | 3000.00 |    NULL |
+| KING   | 5000.00 |    NULL |
+| TURNER | 1500.00 |    0.00 |
+| ADAMS  | 1100.00 |    NULL |
+| JAMES  |  950.00 |    NULL |
+| FORD   | 3000.00 |    NULL |
+| MILLER | 1300.00 |    NULL |
++--------+---------+---------+
+14 rows in set (0.00 sec)
+
+mysql> select sal,comm from emp;
++---------+---------+
+| sal     | comm    |
++---------+---------+
+|  800.00 |    NULL |
+| 1600.00 |  300.00 |
+| 1250.00 |  500.00 |
+| 2975.00 |    NULL |
+| 1250.00 | 1400.00 |
+| 2850.00 |    NULL |
+| 2450.00 |    NULL |
+| 3000.00 |    NULL |
+| 5000.00 |    NULL |
+| 1500.00 |    0.00 |
+| 1100.00 |    NULL |
+|  950.00 |    NULL |
+| 3000.00 |    NULL |
+| 1300.00 |    NULL |
++---------+---------+
+14 rows in set (0.00 sec)
+
+mysql> select sum(sal+comm) from emp;
++---------------+
+| sum(sal+comm) |
++---------------+
+|       7800.00 |
++---------------+
+1 row in set (0.05 sec)
+
+mysql> select sal,comm (sal+comm)as total from emp;
+ERROR 1305 (42000): FUNCTION college.comm does not exist
+mysql> select sal,comm (sal+comm) as total from emp;
+ERROR 1305 (42000): FUNCTION college.comm does not exist
+mysql> select sal,comm, (sal+comm) as total from emp;
++---------+---------+---------+
+| sal     | comm    | total   |
++---------+---------+---------+
+|  800.00 |    NULL |    NULL |
+| 1600.00 |  300.00 | 1900.00 |
+| 1250.00 |  500.00 | 1750.00 |
+| 2975.00 |    NULL |    NULL |
+| 1250.00 | 1400.00 | 2650.00 |
+| 2850.00 |    NULL |    NULL |
+| 2450.00 |    NULL |    NULL |
+| 3000.00 |    NULL |    NULL |
+| 5000.00 |    NULL |    NULL |
+| 1500.00 |    0.00 | 1500.00 |
+| 1100.00 |    NULL |    NULL |
+|  950.00 |    NULL |    NULL |
+| 3000.00 |    NULL |    NULL |
+| 1300.00 |    NULL |    NULL |
++---------+---------+---------+
+14 rows in set (0.00 sec)
+
+mysql> select sal,comm, (sal+comm) from emp;
++---------+---------+------------+
+| sal     | comm    | (sal+comm) |
++---------+---------+------------+
+|  800.00 |    NULL |       NULL |
+| 1600.00 |  300.00 |    1900.00 |
+| 1250.00 |  500.00 |    1750.00 |
+| 2975.00 |    NULL |       NULL |
+| 1250.00 | 1400.00 |    2650.00 |
+| 2850.00 |    NULL |       NULL |
+| 2450.00 |    NULL |       NULL |
+| 3000.00 |    NULL |       NULL |
+| 5000.00 |    NULL |       NULL |
+| 1500.00 |    0.00 |    1500.00 |
+| 1100.00 |    NULL |       NULL |
+|  950.00 |    NULL |       NULL |
+| 3000.00 |    NULL |       NULL |
+| 1300.00 |    NULL |       NULL |
++---------+---------+------------+
+14 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+mysql> select sal,comm, (sal+if null(comm),0) from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'null(comm),0) from emp' at line 1
+mysql> select sal,comm, (sal+if null(comm,0)) from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'null(comm,0)) from emp' at line 1
+mysql> select sal,comm, sal+if null(comm,0) from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'null(comm,0) from emp' at line 1
+mysql> select sal,comm, (sal+ifnull(comm,0)) from emp;
++---------+---------+----------------------+
+| sal     | comm    | (sal+ifnull(comm,0)) |
++---------+---------+----------------------+
+|  800.00 |    NULL |               800.00 |
+| 1600.00 |  300.00 |              1900.00 |
+| 1250.00 |  500.00 |              1750.00 |
+| 2975.00 |    NULL |              2975.00 |
+| 1250.00 | 1400.00 |              2650.00 |
+| 2850.00 |    NULL |              2850.00 |
+| 2450.00 |    NULL |              2450.00 |
+| 3000.00 |    NULL |              3000.00 |
+| 5000.00 |    NULL |              5000.00 |
+| 1500.00 |    0.00 |              1500.00 |
+| 1100.00 |    NULL |              1100.00 |
+|  950.00 |    NULL |               950.00 |
+| 3000.00 |    NULL |              3000.00 |
+| 1300.00 |    NULL |              1300.00 |
++---------+---------+----------------------+
+14 rows in set (0.00 sec)
+
+mysql> select sal,comm, (sal+ifnull(comm,1)) from emp;
++---------+---------+----------------------+
+| sal     | comm    | (sal+ifnull(comm,1)) |
++---------+---------+----------------------+
+|  800.00 |    NULL |               801.00 |
+| 1600.00 |  300.00 |              1900.00 |
+| 1250.00 |  500.00 |              1750.00 |
+| 2975.00 |    NULL |              2976.00 |
+| 1250.00 | 1400.00 |              2650.00 |
+| 2850.00 |    NULL |              2851.00 |
+| 2450.00 |    NULL |              2451.00 |
+| 3000.00 |    NULL |              3001.00 |
+| 5000.00 |    NULL |              5001.00 |
+| 1500.00 |    0.00 |              1500.00 |
+| 1100.00 |    NULL |              1101.00 |
+|  950.00 |    NULL |               951.00 |
+| 3000.00 |    NULL |              3001.00 |
+| 1300.00 |    NULL |              1301.00 |
++---------+---------+----------------------+
+14 rows in set (0.00 sec)
+
+mysql> select sal,comm, (sal+ifnull(comm,0)) from emp;
++---------+---------+----------------------+
+| sal     | comm    | (sal+ifnull(comm,0)) |
++---------+---------+----------------------+
+|  800.00 |    NULL |               800.00 |
+| 1600.00 |  300.00 |              1900.00 |
+| 1250.00 |  500.00 |              1750.00 |
+| 2975.00 |    NULL |              2975.00 |
+| 1250.00 | 1400.00 |              2650.00 |
+| 2850.00 |    NULL |              2850.00 |
+| 2450.00 |    NULL |              2450.00 |
+| 3000.00 |    NULL |              3000.00 |
+| 5000.00 |    NULL |              5000.00 |
+| 1500.00 |    0.00 |              1500.00 |
+| 1100.00 |    NULL |              1100.00 |
+|  950.00 |    NULL |               950.00 |
+| 3000.00 |    NULL |              3000.00 |
+| 1300.00 |    NULL |              1300.00 |
++---------+---------+----------------------+
+14 rows in set (0.00 sec)
+
+mysql> select c.id,c.park,o.hotel from coimbatore_child as c
+    ->  join coimbatore as o
+    ->  where c.zip_code=o.zip_code;
++----+------+------------+
+| id | park | hotel      |
++----+------+------------+
+|  1 | coco | annaporana |
+|  2 | mooo | ss         |
+|  3 | zoo  | ss         |
++----+------+------------+
+3 rows in set (0.00 sec)
+
+mysql>
