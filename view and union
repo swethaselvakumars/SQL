@@ -1,0 +1,248 @@
+Microsoft Windows [Version 10.0.19045.4529]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HAPPY>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 8.0.37 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;/
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| college_info       |
+| constrains         |
+| employe_details    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| storedprocedure    |
+| student_details    |
+| students           |
+| sys                |
+| world              |
++--------------------+
+13 rows in set (1.34 sec)
+
+    -> use college;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '/
+use college' at line 1
+mysql> delimiter ?
+mysql> use college;
+ERROR 1049 (42000): Unknown database 'college;'
+mysql> use college?
+Database changed
+mysql> delimiter;
+    -> show tables ;
+    -> ?
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimiter;show tables' at line 1
+mysql> delimiter ;
+mysql> show tables ;
++-------------------+
+| Tables_in_college |
++-------------------+
+| child_table       |
+| clgstudent        |
+| coimbatore        |
+| coimbatore_child  |
+| dept              |
+| emp               |
+| parent_table      |
++-------------------+
+7 rows in set (0.10 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.12 sec)
+
+mysql> select * from emp
+    -> where sal between 1500 and 2000;
++-------+--------+----------+------+------------+---------+--------+--------+
+| empno | ename  | job      | mgr  | hiredate   | sal     | comm   | deptno |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |   0.00 |     30 |
++-------+--------+----------+------+------------+---------+--------+--------+
+2 rows in set (0.04 sec)
+
+mysql> select * from emp
+    -> where sal between <400;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<400' at line 2
+mysql> select * from emp
+    -> where sal between < 400;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '< 400' at line 2
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| college_info       |
+| constrains         |
+| employe_details    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| storedprocedure    |
+| student_details    |
+| students           |
+| sys                |
+| world              |
++--------------------+
+13 rows in set (0.01 sec)
+
+mysql> use college_info;
+Database changed
+mysql> show tabels;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tabels' at line 1
+mysql> desc college_info;\
+ERROR 1146 (42S02): Table 'college_info.college_info' doesn't exist
+mysql> show table college_info;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'college_info' at line 1
+mysql> show tables;
++------------------------+
+| Tables_in_college_info |
++------------------------+
+| duplicates             |
+| fulljoin               |
+| parent                 |
++------------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from fulljoin;
+ERROR 1356 (HY000): View 'college_info.fulljoin' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them
+mysql> use students;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_students |
++--------------------+
+| child_stu          |
+| studentdb          |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from child_stu;
++--------+-------+
+| Rollno | scl   |
++--------+-------+
+|     43 | ssv   |
+|     44 | rsv   |
+|     45 | sboa  |
+|     45 | nerhu |
++--------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from studentdb;
++----------+--------+------+
+| Name     | Rollno | cls  |
++----------+--------+------+
+| muthachi |     43 |    7 |
+| reshu    |     44 |    9 |
+| puspa    |     45 |    8 |
++----------+--------+------+
+3 rows in set (0.05 sec)
+
+mysql> select c.Rollno,c.scl,s.name,s.cls from child_stu c right join studentdb s on c.rollno=s.rollno;
++--------+-------+----------+------+
+| Rollno | scl   | name     | cls  |
++--------+-------+----------+------+
+|     43 | ssv   | muthachi |    7 |
+|     44 | rsv   | reshu    |    9 |
+|     45 | sboa  | puspa    |    8 |
+|     45 | nerhu | puspa    |    8 |
++--------+-------+----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select c.Rollno,c.scl,s.name,s.cls from child_stu c right join studentdb s on c.rollno=s.rollno
+    -> union
+    -> select c.Rollno,c.scl,s.name,s.cls from child_stu c left join studentdb s on c.rollno=s.rollno;
++--------+-------+----------+------+
+| Rollno | scl   | name     | cls  |
++--------+-------+----------+------+
+|     43 | ssv   | muthachi |    7 |
+|     44 | rsv   | reshu    |    9 |
+|     45 | sboa  | puspa    |    8 |
+|     45 | nerhu | puspa    |    8 |
++--------+-------+----------+------+
+4 rows in set (0.00 sec)
+
+mysql> desc child_stu;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Rollno | int         | YES  | MUL | NULL    |       |
+| scl    | varchar(12) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.04 sec)
+
+mysql> desc studentdb;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Name   | varchar(15) | YES  |     | NULL    |       |
+| Rollno | int         | NO   | PRI | NULL    |       |
+| cls    | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> create view info_student as select c.Rollno,c.scl,s.name,s.cls from child_stu c right join studentdb s on c.rollno=s.rollno
+    ->     union
+    ->     select c.Rollno,c.scl,s.name,s.cls from child_stu c left join studentdb s on c.rollno=s.rollno;
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> select * info_student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'info_student' at line 1
+mysql> select * from info_student;
++--------+-------+----------+------+
+| Rollno | scl   | name     | cls  |
++--------+-------+----------+------+
+|     43 | ssv   | muthachi |    7 |
+|     44 | rsv   | reshu    |    9 |
+|     45 | sboa  | puspa    |    8 |
+|     45 | nerhu | puspa    |    8 |
++--------+-------+----------+------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter "
+ERROR:
+DELIMITER must be followed by a 'delimiter' character or string
+mysql> delimiter ?
+mysql> create procedure information_stu(in onee int,in two int)
+    -> begin
+    -> select * from info_student where onee and two;
+    -> end ?
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> delimiter ?
+mysql> call information_stu(43,44);
+    -> call information_stu(43,44);
+    ->
