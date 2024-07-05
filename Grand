@@ -1,0 +1,16 @@
+create user 'tom' @localhost identified by 'jerry';
+grant all on * to 'tom' @'localhost';
+show grants;
+
+-- -----------//--------------------------------------------
+show databases;
+grant all on dept to 'tom' @'localhost';
+use college;
+show tables;
+
+select * from dept; 
+
+
+
+
+
