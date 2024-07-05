@@ -1,0 +1,48 @@
+create database triggers;
+use triggers;
+create table primarytable (
+id int,
+firstname varchar(15),
+gender char check(gender in ('f','m')),
+phone bigint,
+location varchar(15) default "India");
+insert into primarytable values(3,'adhi','m',989749797,'Usa'),(2,'mithin','m',9384024933,'uk'),(3,'nikkolas','m',938423234,'india');
+select * from primarytable;
+delete from primarytable
+where id=2;
+
+create table secondarytable(id int,
+deleted_by varchar(15),
+action_performed varchar(14));
+alter table secondarytable 
+add column time datetime default current_timestamp;
+select * from secondarytable;
+
+delimiter //
+create trigger triger
+after insert on primarytable for each row
+begin
+declare id int;
+set id=new.id;
+insert into secondarytable(id,deleted_by,action_performed) values(id,user(),"inserted");
+end //
+delimiter ;
+
+delimiter //
+create trigger updation
+after update on primarytable for each row
+begin
+declare id int;
+set id=old.id;
+insert into secondarytable(id,deleted_by,action_performed) values(id,user(),"updated");
+end //
+delimiter ;
+
+update primarytable
+set phone=98984470478
+where id=3;
+ 
+
+
+
+
